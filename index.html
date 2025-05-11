@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektrikli Araçlar Tartışma Panosu</title>
+    <style>
+        .panel {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        .column {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 300px;
+        }
+        .card {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Elektrikli Araçlar Tartışma Panosu</h1>
+    
+    <!-- Katılım Kodu Girişi -->
+    <div>
+        <input type="text" id="codeInput" placeholder="Katılım Kodu Girin" class="input" />
+        <button onclick="joinPanel()">Katıl</button>
+    </div>
+
+    <div id="panel" class="panel" style="display:none;">
+        <div class="column">
+            <h2>Gececeğin Umudu</h2>
+            <div id="leftColumn"></div>
+            <textarea id="leftText" class="input" placeholder="Fikrini buraya yaz..."></textarea>
+            <button onclick="addCard('left')">Fikir Ekle</button>
+        </div>
+        <div class="column">
+            <h2>Yeni Sorunlar</h2>
+            <div id="rightColumn"></div>
+            <textarea id="rightText" class="input" placeholder="Fikrini buraya yaz..."></textarea>
+            <button onclick="addCard('right')">Fikir Ekle</button>
+        </div>
+    </div>
+
+    <script>
+        let userCode = '';
+
+        function joinPanel() {
+            const code = document.getElementById('codeInput').value;
+            // Kodun geçerli olup olmadığını kontrol et (sunucu tarafında kontrol edilebilir)
+            if(code === '12345') {
+                userCode = code;
+                document.getElementById('panel').style.display = 'flex';
+            } else {
+                alert('Geçersiz Katılım Kodu!');
+            }
+        }
+
+        function addCard(side) {
+            const text = side === 'left' ? document.getElementById('leftText').value : document.getElementById('rightText').value;
+            if(text.trim() !== '') {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.textContent = text;
+                if(side === 'left') {
+                    document.getElementById('leftColumn').appendChild(card);
+                } else {
+                    document.getElementById('rightColumn').appendChild(card);
+                }
+                // Temizleme
+                if(side === 'left') {
+                    document.getElementById('leftText').value = '';
+                } else {
+                    document.getElementById('rightText').value = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
